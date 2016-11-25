@@ -1,0 +1,35 @@
+lang() -> expr()*
+expr -> struct()|| declare()||assign()||whileLoop()||doLoop()
+struct() -> STRUCT_KW VAR F_OPEN_BR (VAR||DIGIT)+ F_CLOSE_BR
+declare -> VAR SM
+assign -> (structVar()||VAR) ASSIGN_OP stmt() SM
+stmt -> stmtUnit() (PLUS||MINUS||MULT||DEV) stmtUnit()
+stmtUnit() -> (OPEN_BR stmt())||(STRUCT_VAR||VAR||DIGIT CLOSE_BR*)
+doLoop()-> DO_KW body() WHILE_KW condition() SM
+whileLoop() -> WHILE_KW condition() body()
+condition()-> OPEN_BR (structVar()||VAR||DIGIT) (MORE||LESS||MORE_EQ||LESS_EQ)                                                           
+              CLOSE_BR
+structVar() ->  VAR DOT VAR
+body() -> F_OPEN_BR expr()+ F_CLOSE_BR
+STRUCT_KW ->"^struct$"
+DOT ->"^[.]$"
+F_OPEN_BR ->"^[{]$"
+F_CLOSE_BR ->"^[}]$"
+WHILE_KW ->"^while$"
+DO_KW ->"^do$"
+MORE ->"^>$"
+LESS ->"^<$"
+MORE_EQ ->"^>=$"
+LESS_EQ ->"^<$"
+WS ->"^\\s*$"
+VAR ->"^[a-zA-Z]+$*"
+DIGIT ->"^0|[1-9]{1}[0-9]*$"
+SM ->"^;$"
+ASSIGN_OP ->"^=$"
+PLUS ->"^[+]$"
+MINUS ->"^[-]$"
+MULT ->"^[*]$"
+DEV ->"^[/]$"
+OPEN_BR ->"^[(]$"
+CLOSE_BR ->"^[)]$"
+

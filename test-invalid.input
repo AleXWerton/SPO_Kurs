@@ -1,0 +1,51 @@
+var count;
+var value;
+count = 5; 
+value = 100 +count;
+value = value - count*2;
+
+x=2;
+y=8;
+z=0;
+while(x<=y){
+	do{
+		z=z+1;
+	}while(z>=x);
+	x=x+1;
+}
+
+x=2;
+y=8;
+z=0;
+while(x<=y){
+	while(z<x){
+	z=z+1;
+	}
+	x=x+1;
+}
+
+x=0;
+y=5;
+do{
+x=x+1;
+}
+while(x<=y);
+
+x=2;
+y=15;
+z=0;
+a=0;
+while(x<=y){
+	do{
+		z=z+1;
+		while(a<y){
+			a=a+1;
+		}
+	}while(z>=x);
+	x=x+1;
+}
+
+struct s{
+x;
+y=10;
+}

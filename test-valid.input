@@ -1,0 +1,31 @@
+we=10;
+
+struct s{
+x=15;
+y=12;
+}
+
+x=10;
+a=20+1;
+
+
+struct b{
+x=115;
+y=122;
+}
+s.x=s.x+b.x;
+
+
+x=2;
+y=15;
+z=0;
+a=0;
+while(x<=y){
+	do{
+		z=z+1;
+		while(a<y){
+			a=a+1;
+		}
+	}while(z<=x);
+	x=x+1;
+}
