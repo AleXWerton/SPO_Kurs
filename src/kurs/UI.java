@@ -15,7 +15,7 @@ public class UI
 	
 	public static void validTest() throws Exception
 	{
-		process("test-invalid.input");
+		process("test-valid.input");
 	}
 
 	
