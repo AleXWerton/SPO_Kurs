@@ -399,7 +399,7 @@ public class Parser
 			if(bracketsStack.empty())
 				return true;
 			else
-				throw new Exception("Braket ')' expected ");
+				throw new Exception("Braсket ')' expected ");
 		}
 		else 
 		{
@@ -409,7 +409,7 @@ public class Parser
 	}
 	public boolean stmtUnit() throws Exception
 	{
-		if (openBr())
+		if (openBr()) //Если есть скобки
 		{
 			bracketsStack.push(currentToken);
 			if(!stmt())
@@ -419,13 +419,14 @@ public class Parser
 			else
 				return true;
 		}
-		else if(structVar()||digit()||var())
+		else if(structVar()||digit()||var())  // Если нет скобок, либо внутри
 		{
 			if(closeBr())
 			{
-				do{
+				do
+				{
 					if(bracketsStack.empty())
-						throw new Exception("anexpected ')'");
+						throw new Exception("unexpected ')'");
 					bracketsStack.pop();
 				}
 				
@@ -599,8 +600,8 @@ private class GetPostfixToken{ // преобразование порядка токенов в ПОЛИЗ форму
 		List<List<PostfixToken>> numOfStr = new ArrayList<List<PostfixToken>>();
 		
 		public List<List<PostfixToken>> getPostfixToken() throws Exception {
-			int p0ForDo=0; //Число циклов для do 
-			int p0ForWhile=0; //Число циклов для while
+			int p0ForDo=0;
+			int p0ForWhile=0;
 			boolean isDo = false;
 			List<PostfixToken> poliz = new ArrayList<PostfixToken>();
 			Stack<PostfixToken> stack = new Stack<PostfixToken>();
