@@ -46,7 +46,7 @@ public class Parser
 	}
 	
 
-	private boolean struct() throws Exception // Структура
+	private boolean struct() throws Exception // structure
 	{
 		if(structKW())
 		{
@@ -97,7 +97,7 @@ public class Parser
 	}
 
 	
-	private boolean structKW()// Ключевое слово структуры
+	private boolean structKW()// structure keyword
 	{
 		int temp=currentTokenNumber;
 		wsIgnore();
@@ -146,7 +146,7 @@ public class Parser
 
 
 
-	private boolean doLoop() throws Exception // Цикл do
+	private boolean doLoop() throws Exception
 	{
 		if(doKw())
 		{
@@ -174,7 +174,7 @@ public class Parser
 			return false;
 	}
 	
-	private boolean whileLoop() throws Exception  // Цикл while
+	private boolean whileLoop() throws Exception
 	{
 		if(whileKw())
 		{
@@ -193,7 +193,7 @@ public class Parser
 	}
 	
 	
-	private boolean whileKw()
+	private boolean whileKw() //while keyword
 	{       
 		int temp=currentTokenNumber; 
 		wsIgnore();
@@ -205,7 +205,7 @@ public class Parser
 	}
 	
 	
-	private boolean doKw()
+	private boolean doKw() //do keyword
 	{
 		int temp=currentTokenNumber; 
 		wsIgnore();
@@ -289,8 +289,9 @@ public class Parser
 		return currentToken.getName().equals("FBR_CL");
 	}
 
+
 	
-	private boolean more()
+	private boolean more()// ">"
 	{
 		int temp=currentTokenNumber; 
 		wsIgnore();
@@ -300,7 +301,7 @@ public class Parser
 	}
 	
 	
-	private boolean less() 
+	private boolean less()// "<"
 	{
 		int temp=currentTokenNumber; 
 		wsIgnore();
@@ -310,7 +311,7 @@ public class Parser
 	}
 	
 	
-	private boolean moreEq() 
+	private boolean moreEq() // ">="
 	{
 		int temp=currentTokenNumber; 
 		wsIgnore();
@@ -320,7 +321,7 @@ public class Parser
 	}
 	
 	
-	private boolean lessEq() 
+	private boolean lessEq() // "<="
 	{
 		int temp=currentTokenNumber; 
 		wsIgnore();
@@ -346,14 +347,15 @@ public class Parser
                 {                 
                     return false;
                 }
-    }
+        }
+    	
     
    
    
     
     
     
-	public boolean assign() throws Exception
+	public boolean assign() throws Exception // assign operation
 	{
 		if(structVar()||var())
 		{
@@ -409,7 +411,7 @@ public class Parser
 	}
 	public boolean stmtUnit() throws Exception
 	{
-		if (openBr()) //Если есть скобки
+		if (openBr()) //if bracket
 		{
 			bracketsStack.push(currentToken);
 			if(!stmt())
@@ -419,7 +421,7 @@ public class Parser
 			else
 				return true;
 		}
-		else if(structVar()||digit()||var())  // Если нет скобок, либо внутри
+		else if(structVar()||digit()||var())
 		{
 			if(closeBr())
 			{
@@ -441,10 +443,10 @@ public class Parser
 	
 
 	
-	public boolean sm() //Знак ;
+	public boolean sm() // ";"
 	{
 		int temp=currentTokenNumber; 
-		match();
+		next();
 		if(!currentToken.getName().equals("SM"))
 			currentTokenNumber=temp;
 		return currentToken.getName().equals("SM");
@@ -452,17 +454,17 @@ public class Parser
 	}
 	
 	
-	public boolean varKw() //Ключевое слово var
+	public boolean varKw() //variable keyword
 	{
 		int temp=currentTokenNumber; 
-		match();
+		next();
 		if(!currentToken.getName().equals("VAR_KW"))
 			currentTokenNumber=temp;
 		return currentToken.getName().equals("VAR_KW");
 	}
 	
 	
-	public boolean assignOp() //Знак =
+	public boolean assignOp() // "="
 	{
 		int temp=currentTokenNumber; 
 		wsIgnore();
@@ -472,7 +474,7 @@ public class Parser
 	}
 	
 	
-	public boolean plus() //Знак плюс
+	public boolean plus() // "+"
 	{
 		int temp=currentTokenNumber; 
 		wsIgnore();
@@ -482,7 +484,7 @@ public class Parser
 	}
 	
 	
-	public boolean minus() //Знак минус
+	public boolean minus() // "-"
 	{
 		int temp=currentTokenNumber; 
 		wsIgnore();
@@ -492,7 +494,7 @@ public class Parser
 	}
 	
 	
-	public boolean umn() //Знак умножения
+	public boolean umn() // "*"
 	{
 		int temp=currentTokenNumber; 
 		wsIgnore();
@@ -502,7 +504,7 @@ public class Parser
 	}
 	
 	
-	public boolean del() //Знак деления
+	public boolean del() // "/"
 	{
 		int temp=currentTokenNumber; 
 		wsIgnore();
@@ -512,7 +514,7 @@ public class Parser
 	}
 	
 	
-	public boolean openBr() //Открывающая скобка
+	public boolean openBr() // "("
 	{
 		int temp=currentTokenNumber; 
 		wsIgnore();
@@ -522,7 +524,7 @@ public class Parser
 	}
 	
 	
-	public boolean closeBr() //Закрывающая скобка
+	public boolean closeBr() // ")"
 	{ 
 		int temp=currentTokenNumber; 
 		wsIgnore();
@@ -532,7 +534,7 @@ public class Parser
 	}
 	
 	
-	public boolean digit() //Число
+	public boolean digit()
 	{
 		int temp=currentTokenNumber; 
 		wsIgnore();
@@ -542,7 +544,7 @@ public class Parser
 	}
 	
 	
-	public boolean var() //Переменная
+	public boolean var() // variable
 	{
 		int temp=currentTokenNumber; 
 		wsIgnore();
@@ -552,25 +554,25 @@ public class Parser
 	}
 	
 
-	private boolean dot() //Точка
+	private boolean dot() // "."
 	{
 		int temp=currentTokenNumber;
-		match();
+		next() ;
 		if(!currentToken.getName().equals("DOT"))
 			currentTokenNumber=temp;
 		return currentToken.getName().equals("DOT");
 	}
 	
 	
-	private void wsIgnore() //Пропуск пробела
+	private void wsIgnore() // ignore " "
 	{ 
 		do
-			match();
+			next();
 		while (currentToken.getName().equals("WS"));
 	}
 	
 	
-	public boolean match() //Переход к следующему токену
+	public boolean next() // next Token
 	{
 		
 		if (currentTokenNumber < tokens.size())
@@ -596,7 +598,7 @@ public class Parser
 	
 	
 	
-private class GetPostfixToken{ // преобразование порядка токенов в ПОЛИЗ форму
+private class GetPostfixToken{
 		List<List<PostfixToken>> numOfStr = new ArrayList<List<PostfixToken>>();
 		
 		public List<List<PostfixToken>> getPostfixToken() throws Exception {
@@ -660,7 +662,7 @@ private class GetPostfixToken{ // преобразование порядка токенов в ПОЛИЗ форму
 						List<PostfixToken> temp = new ArrayList<PostfixToken>();
 						temp.addAll(poliz);
 						numOfStr.add(temp);
-						//System.out.println(numOfStr.size());
+					    //System.out.println(numOfStr.get());
 						poliz.clear();
 					}
 					getPostfixToken();
@@ -746,7 +748,7 @@ private class GetPostfixToken{ // преобразование порядка токенов в ПОЛИЗ форму
 		}
 		
 		
-		private int getPrior(Token op) //установка приоритетов
+		private int getPrior(Token op) //get priority
 		{
 			if(op.getName().equals("LESS") || op.getName().equals("MORE") || op.getName().equals("LESS_EQ") || op.getName().equals("MORE_EQ"))
 				return 0;

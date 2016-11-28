@@ -16,8 +16,8 @@ public class Lexer {
 	
 	
 	List<Token> tokens = new ArrayList<Token>();
-	Map<String, Pattern> keyWords = new HashMap<String, Pattern>(); //Создание хэш_таблицы ключевых слов
-	Map<String, Pattern> terminals = new HashMap<String, Pattern>();//Создание хэш_таблицы терминалов
+	Map<String, Pattern> keyWords = new HashMap<String, Pattern>();
+	Map<String, Pattern> terminals = new HashMap<String, Pattern>();
 	String accum="";
 	String currentLucky = null;
 	int i;
@@ -36,8 +36,6 @@ public class Lexer {
 	public static final String MORE_EQ = "MORE_EQ";
 	public static final String LESS_EQ = "LESS_EQ";
 	public static final String MARK = "MARK";
-	public static final String KAV = "KAV";
-	public static final String STR_KV = "STR_KV";
 	public static final String JF = "JF";
 	public static final String JMP = "JMP";
 	public static final String JNF = "JNF";
@@ -55,7 +53,6 @@ public class Lexer {
 	Pattern less_equally = Pattern.compile("^<=$");
 	Pattern figur_br_op = Pattern.compile("^[{]$");
 	Pattern figur_br_cl = Pattern.compile("^[}]$");
-	Pattern varKeyWordPattern = Pattern.compile("^var$");
 	Pattern assign_op = Pattern.compile("^=$");
 	Pattern plus_op = Pattern.compile("^[+]$");
 	Pattern minus_op = Pattern.compile("^[-]$");
@@ -71,7 +68,6 @@ public class Lexer {
 	public Lexer()
 	{
 		keyWords.put("STRUCT_KW", struct_kw);
-		keyWords.put("VAR_KW", varKeyWordPattern);
 		keyWords.put("WHILE_KW", while_kw);
 		keyWords.put("DO_KW", do_kw);
 		
@@ -100,9 +96,9 @@ public class Lexer {
 	
 	
 	
-	public void processInput(String filename) throws IOException 
+	public void processInput(String filename) throws IOException //process input text from src
 	{
-		File file = new File(filename);  // чтение из файла строк
+		File file = new File(filename);
 		Reader reader = new FileReader(file);
 		BufferedReader bufferedReader = new BufferedReader(reader);
 		String line;
@@ -123,7 +119,7 @@ public class Lexer {
 	
 	
 	
-	private void processLine(String line)
+	private void processLine(String line) // process input line
 	{
 		for(i=0; i<line.length(); i++)
 		{
@@ -132,24 +128,24 @@ public class Lexer {
 		}
 	}
 
-	private void processAccum()
+	private void processAccum() // analyze accum and, if symbols matches key value, add token
 	{
-		boolean found = false;
+		boolean found = false; // true if key matches
 		
-		for(String regExpName: terminals.keySet()) // получение ключей из хеш_таблицы терминалов
+		for(String regExpName: terminals.keySet()) // get keyset from terminals hash table
 		{
-			Pattern currentPattern = terminals.get(regExpName); // получение значения ключа 
-			Matcher m = currentPattern.matcher(accum);  // считанные символы сравниваются со значением ключа пол. из таблицы
+			Pattern currentPattern = terminals.get(regExpName); // get key value 
+			Matcher m = currentPattern.matcher(accum);  // match symbols in accum with key value
 			
-			if(m.matches())// в случае совпадения
+			if(m.matches())// if match
 			{ 
-				currentLucky = regExpName; // записать ключ 
-				found=true; // верное значение, считан удачно
+				currentLucky = regExpName; // register key 
+				found=true;
 			}
 			else{}
 		}
 		
-		if(currentLucky!=null&&!found)
+		if(currentLucky!=null&&!found) // if key value matches with symbols, add token
 		{
 			System.out.println("TOKEN("+currentLucky+") recognized with value:"+ accum.substring(0, accum.length()-1));
 			tokens.add(new Token(currentLucky, accum.substring(0, accum.length()-1)));
@@ -158,20 +154,20 @@ public class Lexer {
 			currentLucky = null;
 		}
 		
-		for(String regExpName: keyWords.keySet()) // получение ключей из хеш_таблицы ключевых слов
+		for(String regExpName: keyWords.keySet()) // get keySet from keySet hash table
 		{
-			Pattern currentPattern = keyWords.get(regExpName); // получение значения ключа 
-			Matcher m = currentPattern.matcher(accum);  // считанные символы сравниваются со значением ключа пол. из таблицы
+			Pattern currentPattern = keyWords.get(regExpName); // get key value
+			Matcher m = currentPattern.matcher(accum);  // match symbols in accum with key
 			
-			if(m.matches()) // в случае совпадения
+			if(m.matches()) // if match
 			{ 
-				currentLucky = regExpName; // записать ключ 
-				found=true; // верное значение, считан удачно
+				currentLucky = regExpName; // register key
+				found=true;
 			}
 			else{}
 		}
 		
-		if(currentLucky!=null&&!found)
+		if(currentLucky!=null&&!found) // if key value matches with symbols, add token
 		{
 			System.out.println("TOKEN("+currentLucky+") recognized with value:"+ accum.substring(0, accum.length()-1));
 			tokens.add(new Token(currentLucky, accum.substring(0, accum.length()-1)));
