@@ -7,8 +7,7 @@ stmt -> stmtUnit() (PLUS||MINUS||MULT||DEV) stmtUnit()
 stmtUnit() -> (OPEN_BR stmt())||(STRUCT_VAR||VAR||DIGIT CLOSE_BR*)
 doLoop()-> DO_KW body() WHILE_KW condition() SM
 whileLoop() -> WHILE_KW condition() body()
-condition()-> OPEN_BR (structVar()||VAR||DIGIT) (MORE||LESS||MORE_EQ||LESS_EQ)                                                           
-              CLOSE_BR
+condition()-> OPEN_BR (structVar()||VAR||DIGIT) (MORE||LESS||MORE_EQ||LESS_EQ) CLOSE_BR
 structVar() ->  VAR DOT VAR
 body() -> F_OPEN_BR expr()+ F_CLOSE_BR
 STRUCT_KW ->"^struct$"

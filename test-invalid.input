@@ -1,7 +1,7 @@
 count;
 value;
-count = 5; 
-value = 100 +count;
+val count = 5; 
+val value = 100 +count;
 value = value - count*2;
 
 x=2;
