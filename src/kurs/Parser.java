@@ -636,6 +636,7 @@ private class GetPostfixToken{
 				}
 				else if(doKw())
 				{
+					
 					p0ForDo=numOfStr.size();
 					isDo=true;
 				}

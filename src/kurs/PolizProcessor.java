@@ -11,7 +11,7 @@ public class PolizProcessor
 	private Map<String, Integer> varTable = new HashMap<String, Integer>();
 	private List<List<PostfixToken>> numOfStr;
 	private Stack<PostfixToken> stack = new Stack<PostfixToken>();
-	private PostfixToken right, left; //Операнды
+	private PostfixToken right, left;
 	private int currentToketnNumber;
 	public PolizProcessor(List<List<PostfixToken>> numOfStr)
 	{

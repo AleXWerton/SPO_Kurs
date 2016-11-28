@@ -137,7 +137,7 @@ public class Lexer {
 			Pattern currentPattern = terminals.get(regExpName); // get key value 
 			Matcher m = currentPattern.matcher(accum);  // match symbols in accum with key value
 			
-			if(m.matches())// if match
+			if(m.matches())// if matches
 			{ 
 				currentLucky = regExpName; // register key 
 				found=true;
