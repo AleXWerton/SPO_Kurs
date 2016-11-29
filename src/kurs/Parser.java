@@ -398,9 +398,8 @@ public class Parser
 			}
 		}
 		
-		else
-		{
-			if(var())
+
+		else if(var())
 			{
 				for(int i = 0;i < varList.size();i++)
 				{
@@ -434,34 +433,14 @@ public class Parser
 
 				}
 			}
-		}
-		if(structVar())
-		{
-			if(assignOp())
+		    else
 			{
-				if(stmt())
-				{
-                    if(!sm())
-                        throw new Exception("Expected ';' but " + currentToken +" found.");
-                    else
-                        return true;
-				}
-                else
-                {
-                    throw new Exception("stmt  expected, but " + currentToken +"found.");
-                }
-			} 
-			else
-			{
-				throw new Exception("assignOp  expected, but " + currentToken +"found.");
+			 return false;
 			}
-		}
-		else 
-		{
-			return false;
-		}
+		}	
+		
 
-	}
+	
 	
 	
 	public boolean stmt() throws Exception
@@ -539,6 +518,10 @@ public class Parser
 			currentTokenNumber=temp;
 		return currentToken.getName().equals("VAR_KW");
 	}
+	
+	
+
+	
 	
 	
 	public boolean assignOp() // "="
@@ -705,6 +688,7 @@ private class GetPostfixToken{
 					else
 						poliz.add(new PostfixToken(currentToken.getName(), currentToken.getValue()));
 				}
+				
 				else if(structKW())
 				{
 					var();

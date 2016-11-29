@@ -34,6 +34,7 @@ public class Lexer {
 	public static final String WS = "WS";
 	public static final String MORE = "MORE";
 	public static final String LESS = "LESS";
+	
 	public static final String MORE_EQ = "MORE_EQ";
 	public static final String LESS_EQ = "LESS_EQ";
 	public static final String MARK = "MARK";
@@ -43,6 +44,7 @@ public class Lexer {
 	
 	
 
+	
 	Pattern struct_kw = Pattern.compile("^struct$");
 	Pattern dot = Pattern.compile("^[.]$");
 	Pattern sm = Pattern.compile("^;$");
@@ -73,6 +75,7 @@ public class Lexer {
 		keyWords.put("WHILE_KW", while_kw);
 		keyWords.put("DO_KW", do_kw);
 		keyWords.put("VAR_KW", var_kw);
+		
 		
 		
 		terminals.put("DOT", dot);
