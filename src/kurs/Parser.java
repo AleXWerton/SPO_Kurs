@@ -4,11 +4,13 @@ import java.util.*;
 
 public class Parser
 {
+	boolean inStructure = false;
 	private List<Token> tokens;
 	private Token currentToken;
 	private Stack<Token> bracketsStack = new Stack<Token>();
 	private int currentTokenNumber = 0;
 	Map<String, List<Token>> structTable = new HashMap<String, List<Token>>();
+	List<Token> varList = new ArrayList<Token>();
 	
 	
 	public void setTokens(List<Token> tokens) 
@@ -50,6 +52,7 @@ public class Parser
 	{
 		if(structKW())
 		{
+			inStructure = true;
 			if (var())
 			{
 				Token tempKey = currentToken;
@@ -72,8 +75,10 @@ public class Parser
 							}
 						}
 						while (declare()||assign());
-						if(fCloseBr())
+						
+						if(fCloseBr()&&inStructure)
 						{
+							inStructure = false;
 							structTable.put(tempKey.getValue(), tempValue);
 							System.out.println(structTable);
 							return true;
@@ -98,7 +103,7 @@ public class Parser
 
 	
 	private boolean structKW()// structure keyword
-	{
+	{ 
 		int temp=currentTokenNumber;
 		wsIgnore();
 		if(!currentToken.getName().equals("STRUCT_KW"))
@@ -272,6 +277,7 @@ public class Parser
 	
 	private boolean fOpenBr() 
 	{
+		
 		int temp=currentTokenNumber; 
 		wsIgnore();
 		if(!currentToken.getName().equals("FBR_OP"))
@@ -282,6 +288,7 @@ public class Parser
 	
 	private boolean fCloseBr() 
 	{
+		
 		int temp=currentTokenNumber; 
 		wsIgnore();
 		if(!currentToken.getName().equals("FBR_CL"))
@@ -333,8 +340,16 @@ public class Parser
 
     public boolean declare() throws Exception
     {
-                if(var())
+     if(varKw())
+       {
+    	if(var())
                 {
+    		     if(!varList.contains(currentToken))
+    		     {
+    		         varList.add(currentToken);
+    		     }
+    		     else
+    		    	 return false;
                     if(sm())
 						return true;
                     else 
@@ -347,17 +362,21 @@ public class Parser
                 {                 
                     return false;
                 }
-        }
+           }
+        else
+    	 return false;
+      }
     	
     
    
    
-    
+
     
     
 	public boolean assign() throws Exception // assign operation
 	{
-		if(structVar()||var())
+		boolean var_is_defined = false;
+		if(structVar())
 		{
 			if(assignOp())
 			{
@@ -376,10 +395,68 @@ public class Parser
 			else
 			{
 				throw new Exception("assignOp  expected, but " + currentToken +"found.");
-
 			}
 		}
+		
 		else
+		{
+			if(var())
+			{
+				for(int i = 0;i < varList.size();i++)
+				{
+				if(currentToken.equals(varList.get(i))&&!inStructure)
+					{
+						var_is_defined = true;
+					}
+				}
+				
+				//System.out.println(inStructure);
+				if(!var_is_defined&& !inStructure)
+					throw new Exception("Variable with name " + currentToken.getValue() +" is not defined.");
+				
+				if(assignOp())
+				{
+					if(stmt())
+					{
+	                    if(!sm())
+	                        throw new Exception("Expected ';' but " + currentToken +" found.");
+	                    else
+	                        return true;
+					}
+	                else
+	                {
+	                    throw new Exception("stmt  expected, but " + currentToken +"found.");
+	                }
+				} 
+				else
+				{
+					throw new Exception("assignOp  expected, but " + currentToken +"found.");
+
+				}
+			}
+		}
+		if(structVar())
+		{
+			if(assignOp())
+			{
+				if(stmt())
+				{
+                    if(!sm())
+                        throw new Exception("Expected ';' but " + currentToken +" found.");
+                    else
+                        return true;
+				}
+                else
+                {
+                    throw new Exception("stmt  expected, but " + currentToken +"found.");
+                }
+			} 
+			else
+			{
+				throw new Exception("assignOp  expected, but " + currentToken +"found.");
+			}
+		}
+		else 
 		{
 			return false;
 		}
@@ -563,6 +640,7 @@ public class Parser
 		return currentToken.getName().equals("DOT");
 	}
 	
+
 	
 	private void wsIgnore() // ignore " "
 	{ 
@@ -602,8 +680,8 @@ private class GetPostfixToken{
 		List<List<PostfixToken>> numOfStr = new ArrayList<List<PostfixToken>>();
 		
 		public List<List<PostfixToken>> getPostfixToken() throws Exception {
-			int p0ForDo=0;
-			int p0ForWhile=0;
+			int pointer_For_Do=0;
+			int pointer_For_While=0;
 			boolean isDo = false;
 			List<PostfixToken> poliz = new ArrayList<PostfixToken>();
 			Stack<PostfixToken> stack = new Stack<PostfixToken>();
@@ -637,14 +715,14 @@ private class GetPostfixToken{
 				else if(doKw())
 				{
 					
-					p0ForDo=numOfStr.size();
+					pointer_For_Do=numOfStr.size();
 					isDo=true;
 				}
 				else if(whileKw())
 				{
 					if(!isDo)
 					{
-						p0ForWhile=numOfStr.size();
+						pointer_For_While=numOfStr.size();
 					}
 					else
 					{
@@ -671,12 +749,12 @@ private class GetPostfixToken{
 					if(!isDo)
 					{
 						int p1=numOfStr.size();
-						List<PostfixToken> conditeon = numOfStr.get(p0ForWhile);
+						List<PostfixToken> conditeon = numOfStr.get(pointer_For_While);
 						conditeon.add(new PostfixToken("MARK", String.valueOf(p1)));
 						conditeon.add(new PostfixToken("JNF", "!F"));
-						numOfStr.set(p0ForWhile, conditeon);
+						numOfStr.set(pointer_For_While, conditeon);
 						List<PostfixToken> endOfFBr = numOfStr.get(p1-1);
-						endOfFBr.add(new PostfixToken("MARK", String.valueOf(p0ForWhile)));
+						endOfFBr.add(new PostfixToken("MARK", String.valueOf(pointer_For_While)));
 						endOfFBr.add(new PostfixToken("JMP", "!"));
 						numOfStr.set(p1-1, endOfFBr);
 					}
@@ -730,7 +808,7 @@ private class GetPostfixToken{
 					
 					if(isDo&&endOfDoLoop)
 					{
-						temp.add(new PostfixToken("MARK", String.valueOf(p0ForDo)));
+						temp.add(new PostfixToken("MARK", String.valueOf(pointer_For_Do)));
 						temp.add(new PostfixToken("JF", "F"));
 						isDo=false;
 						endOfDoLoop=false;

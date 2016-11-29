@@ -1,7 +1,7 @@
 lang() -> expr()*
 expr -> struct()|| declare()||assign()||whileLoop()||doLoop()
 struct() -> STRUCT_KW VAR F_OPEN_BR (VAR||DIGIT)+ F_CLOSE_BR
-declare -> VAR SM
+declare ->VAR_KW VAR SM
 assign -> (structVar()||VAR) ASSIGN_OP stmt() SM
 stmt -> stmtUnit() (PLUS||MINUS||MULT||DEV) stmtUnit()
 stmtUnit() -> (OPEN_BR stmt())||(STRUCT_VAR||VAR||DIGIT CLOSE_BR*)

@@ -1,7 +1,6 @@
 count;
-value;
-val count = 5; 
-val value = 100 +count;
+count = 5; 
+var value = 100 +count;
 value = value - count*2;
 
 x=2;

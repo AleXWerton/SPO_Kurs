@@ -29,6 +29,7 @@ public class Lexer {
 	public static final String UMN = "UMN";
 	public static final String ASSIGN_OP = "ASSIGN_OP";
 	public static final String VAR = "VAR";
+	public static final String VAR_KW = "VAR_KW";
 	public static final String DIGIT = "DIGIT";
 	public static final String WS = "WS";
 	public static final String MORE = "MORE";
@@ -47,6 +48,7 @@ public class Lexer {
 	Pattern sm = Pattern.compile("^;$");
 	Pattern while_kw = Pattern.compile("^while$");
 	Pattern do_kw = Pattern.compile("^do$");
+	Pattern var_kw = Pattern.compile("^var$");
 	Pattern more = Pattern.compile("^[>]$");
 	Pattern less = Pattern.compile("^<$");
 	Pattern more_equally = Pattern.compile("^>=$");
@@ -70,6 +72,7 @@ public class Lexer {
 		keyWords.put("STRUCT_KW", struct_kw);
 		keyWords.put("WHILE_KW", while_kw);
 		keyWords.put("DO_KW", do_kw);
+		keyWords.put("VAR_KW", var_kw);
 		
 		
 		terminals.put("DOT", dot);

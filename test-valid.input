@@ -1,26 +1,38 @@
-we=10;
-struct s{
+var x;
+
+struct s
+{
 x=15;
 y=12;
 }
+var a;
+var f;
 x=10;
-a=20+1;
-f = 1 + 2 + 8/2;
-struct b{
+f = 1 + 2 + 8/2 + s.y;
+var y;
+struct b
+{
 x=(115);
 y=122;
 }
+
+s.x = b.y + s.x;
 y=0; 
 x=2;
 y=15;
+var z;
 z=0;
 a=0;
-while(x<=y){
-	do{
+while(x<=y)
+{
+	do
+	{
 		z=z+1;
-		while(a<y){
+		while(a<y)
+		{
 			a=a+1;
 		}
-	}while(z<=x);
+	}
+	while(z<=x);
 	x=x+1;
 }
